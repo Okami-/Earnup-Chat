@@ -1,5 +1,7 @@
 # Earnup-Chat
 
+Open up two seperate browser windows since a uid is assigned per browser session.
+
 1. Git clone Repo
 `git clone https://github.com/Okami-/Earnup-Chat.git`
 2. cd into application

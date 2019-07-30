@@ -8,10 +8,22 @@ class UsersList extends React.Component {
         }
     }
 
+    static getDerivedStateFromProps(nextProps, prevState) {
+        return {
+            users : nextProps.users
+        }
+    }
+
     render() {
         return (
-            <div className="user col-xs-12 col-sm-12 col-md-4 col-lg-2">
-                <i className="fa fa-user"/>
+            <div className="users col-xs-12 col-sm-12 col-md-4 col-lg-2">
+                {this.state.users.length ? this.state.users.map((user, i) => {
+                    return (
+                        <div className="user" key={i}>
+                            <i className="fa fa-user"/> {user}  
+                        </div>
+                    )
+                }) : 'No one is here'}
             </div>
         )
     }

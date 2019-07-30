@@ -1,5 +1,7 @@
 import React from 'react';
-import UsersList from './UsersList'
+import UsersList from './UsersList';
+import EnterChat from './EnterChat';
+import Messages from './Messages';
 import socketIOClient from 'socket.io-client';
 
 class Chat extends React.Component {
@@ -56,10 +58,16 @@ class Chat extends React.Component {
     }
 
     initChat() {
+        // set local storage username
         localStorage.setItem('username', this.state.username);
+
+        // chat is ready to go set chat_ready boolean to true
         this.setState({
             chat_ready : true
         });
+
+        // set socket method to client side socket.io with websocket address
+        // set query value pair to username and uid
         this.socket = socketIOClient('ws://localhost:8989', {
             query : 'username='+this.state.username+'&uid='+this.state.uid
         });
@@ -80,7 +88,19 @@ class Chat extends React.Component {
     render() {
         return (
             <div className="chat-app">
-               <UsersList users={this.state.users}></UsersList>
+                {this.state.chat_ready ? (
+                    <React.Fragment>
+                        <UsersList users={this.state.users}/>
+                        <Messages
+                            sendMessage={this.sendMessage.bind(this)}
+                            messages={this.state.messages}
+                        />
+                    </React.Fragment>
+                ) : (
+                    <EnterChat
+                        setUsername={this.setUsername.bind(this)}
+                    />
+                )}
             </div>
         )
     }

@@ -22,14 +22,12 @@ class Chat extends React.Component {
         if(this.state.username.length) {
             this.initChat();
         }
-        console.log(this.state);
     }
 
     // creates a random unique identifier and than saves it into local storage
     createUID() {
         var text  = '';
         text += Math.random().toString(36).substr(2, 9);
-        console.log(text);
         localStorage.setItem('uid', text);
         return text;
     }
@@ -49,12 +47,19 @@ class Chat extends React.Component {
                 uid : localStorage.getItem('uid'),
                 message : message
             }])
-        })
+        });
+        this.socket.emit('message', {
+            username : localStorage.getItem('username'),
+            uid : localStorage.getItem('uid'),
+            message : message
+        });
+        this.scrollToBottom();
     }
 
     scrollToBottom() {
         let messages = document.getElementsByClassName('messages')[0];
         messages.scrollTop = messages.scrollHeight - messages.clientHeight;
+        console.log(messages.scrollTop);
     }
 
     initChat() {
@@ -80,11 +85,12 @@ class Chat extends React.Component {
 
         this.socket.on('message', function (message) {
             this.setState({
-                messages: this.state.messages.concat([messages])
+                messages : this.state.messages.concat([message])
             });
             this.scrollToBottom();
-        })
+        }.bind(this));
     }
+
     render() {
         return (
             <div className="chat-app">

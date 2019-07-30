@@ -24,7 +24,7 @@ class Messages extends React.Component {
     }
 
     assignHeight(){
-        let chat_height = 200;
+        let chat_height = 35;
         let _docHeight = (document.height !== undefined) ? document.height : document.body.offsetHeight;
         this.setState({
             height : _docHeight - 65 - chat_height

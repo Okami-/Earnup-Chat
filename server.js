@@ -57,6 +57,14 @@ removeSocket = (socket_id) => {
         users = clone_users;
     }
 };
+
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/index.html');
+});
+
+server.listen(port, () => {
+  console.log('Running server on 127.0.0.1:' + port);
+});
  
 io.on('connection', (socket) => {
     let query = socket.request._query,
@@ -87,12 +95,4 @@ io.on('connection', (socket) => {
         removeSocket(socket.id);
         io.emit('updateUsersList', getUsers());
     });
-});
-
-app.get('/', (req, res) => {
-    res.sendFile(__dirname + '/index.html');
-});
-
-server.listen(port, () => {
-  console.log('Running server on 127.0.0.1:' + port);
 });

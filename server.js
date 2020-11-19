@@ -8,13 +8,13 @@ app.use('/assets', express.static(__dirname + '/dist'));
  
 let users = {};
  
-getUsers = () => {
+const getUsers = () => {
     return Object.keys(users).map(function(key){
         return users[key].username
     });
 };
 
-createSocket = (user) => {
+const createSocket = (user) => {
     let cur_user = users[user.uid],
         updated_user = {
             [user.uid] : Object.assign(cur_user, {sockets : [...cur_user.sockets, user.socket_id]})
@@ -22,7 +22,7 @@ createSocket = (user) => {
     users = Object.assign(users, updated_user);
 };
 
-createUser = (user) => {
+const createUser = (user) => {
     users = Object.assign({
         [user.uid] : {
             username : user.username,
@@ -32,7 +32,7 @@ createUser = (user) => {
     }, users);
 };
 
-removeSocket = (socket_id) => {
+const removeSocket = (socket_id) => {
     let uid = '';
     Object.keys(users).map(function(key){
         let sockets = users[key].sockets;
